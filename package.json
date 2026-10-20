@@ -1,0 +1,13 @@
+{
+  "name": "pr-triage-demo",
+  "version": "1.0.0",
+  "description": "Tiny task-list library. Exists only as a demo target for the PR Triage Agent.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
