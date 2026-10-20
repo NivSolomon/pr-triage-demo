@@ -1,4 +1,4 @@
-export const DEFAULT_STATUS = "todo";
+export const DEFAULT_STATUS = "backlog";
 
 /** Create a task. `due` is an ISO date string or null. */
 export function createTask({ id, title, due = null, status = DEFAULT_STATUS }) {
