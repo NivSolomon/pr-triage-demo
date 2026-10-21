@@ -36,7 +36,7 @@ export function useTaskStore() {
     tasks,
     addTask: (input) => commit((s) => s.add(input)),
     moveTask: (id, status) => commit((s) => s.move(id, status)),
-    renameTask: (id, title) => commit((s) => s.update(id, { title })),
+    updateTask: (id, changes) => commit((s) => s.update(id, changes)),
     removeTask: (id) => commit((s) => s.remove(id)),
   };
 }

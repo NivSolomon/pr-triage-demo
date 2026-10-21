@@ -1,8 +1,49 @@
+import { useState } from "react";
 import { isOverdue } from "../../src/tasks.js";
 import { STATUSES } from "../../src/store.js";
 
-export default function TaskCard({ task, onMove, onRemove }) {
+export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(task.title);
+  const [due, setDue] = useState(task.due ? task.due.slice(0, 10) : "");
+  const [error, setError] = useState("");
   const overdue = isOverdue(task);
+
+  function startEdit() {
+    setTitle(task.title);
+    setDue(task.due ? task.due.slice(0, 10) : "");
+    setError("");
+    setEditing(true);
+  }
+
+  function save(e) {
+    e.preventDefault();
+    try {
+      onUpdate(task.id, { title, due: due ? new Date(due).toISOString() : null });
+      setEditing(false);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  if (editing) {
+    return (
+      <li className="card">
+        <form className="edit-form" onSubmit={save}>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} aria-label="Edit title" autoFocus />
+          <input type="date" value={due} onChange={(e) => setDue(e.target.value)} aria-label="Edit due date" />
+          {error && <p className="error">{error}</p>}
+          <div className="card-actions">
+            <button type="submit">Save</button>
+            <button type="button" className="secondary" onClick={() => setEditing(false)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </li>
+    );
+  }
+
   return (
     <li className={`card${overdue ? " overdue" : ""}`}>
       <div className="card-title">{task.title}</div>
@@ -20,9 +61,14 @@ export default function TaskCard({ task, onMove, onRemove }) {
             </option>
           ))}
         </select>
-        <button className="link" onClick={() => onRemove(task.id)} aria-label={`Delete ${task.title}`}>
-          Delete
-        </button>
+        <span>
+          <button className="link neutral" onClick={startEdit} aria-label={`Edit ${task.title}`}>
+            Edit
+          </button>
+          <button className="link" onClick={() => onRemove(task.id)} aria-label={`Delete ${task.title}`}>
+            Delete
+          </button>
+        </span>
       </div>
     </li>
   );

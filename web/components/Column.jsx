@@ -1,7 +1,7 @@
 import { sortByDue } from "../../src/sort.js";
 import TaskCard from "./TaskCard.jsx";
 
-export default function Column({ status, tasks, onMove, onRemove }) {
+export default function Column({ status, tasks, onMove, onUpdate, onRemove }) {
   return (
     <section className="column">
       <h2>
@@ -9,7 +9,7 @@ export default function Column({ status, tasks, onMove, onRemove }) {
       </h2>
       <ul>
         {sortByDue(tasks).map((t) => (
-          <TaskCard key={t.id} task={t} onMove={onMove} onRemove={onRemove} />
+          <TaskCard key={t.id} task={t} onMove={onMove} onUpdate={onUpdate} onRemove={onRemove} />
         ))}
         {tasks.length === 0 && <li className="empty">Nothing here</li>}
       </ul>

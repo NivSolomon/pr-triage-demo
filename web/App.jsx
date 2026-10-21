@@ -6,7 +6,7 @@ import StatsBar from "./components/StatsBar.jsx";
 import Column from "./components/Column.jsx";
 
 export default function App() {
-  const { tasks, addTask, moveTask, removeTask } = useTaskStore();
+  const { tasks, addTask, moveTask, updateTask, removeTask } = useTaskStore();
   const groups = groupByStatus(tasks);
 
   return (
@@ -23,6 +23,7 @@ export default function App() {
             status={status}
             tasks={groups[status] ?? []}
             onMove={moveTask}
+            onUpdate={updateTask}
             onRemove={removeTask}
           />
         ))}
