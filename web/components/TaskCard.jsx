@@ -45,7 +45,11 @@ export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
   }
 
   return (
-    <li className={`card${overdue ? " overdue" : ""}`}>
+    <li
+      className={`card${overdue ? " overdue" : ""}`}
+      draggable
+      onDragStart={(e) => e.dataTransfer.setData("text/task-id", String(task.id))}
+    >
       <div className="card-title">{task.title}</div>
       {task.due && (
         <div className="card-due">
