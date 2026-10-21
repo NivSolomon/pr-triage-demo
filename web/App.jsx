@@ -4,9 +4,10 @@ import { useTaskStore } from "./useTaskStore.js";
 import TaskForm from "./components/TaskForm.jsx";
 import StatsBar from "./components/StatsBar.jsx";
 import Column from "./components/Column.jsx";
+import UndoRedo from "./components/UndoRedo.jsx";
 
 export default function App() {
-  const { tasks, addTask, moveTask, updateTask, removeTask } = useTaskStore();
+  const { tasks, addTask, moveTask, updateTask, removeTask, undo, redo, canUndo, canRedo } = useTaskStore();
   const groups = groupByStatus(tasks);
 
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <header>
         <h1>Task Board</h1>
         <StatsBar tasks={tasks} />
+        <UndoRedo canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} />
       </header>
       <TaskForm onAdd={addTask} />
       <div className="board">

@@ -43,3 +43,7 @@ button.secondary:hover { background: #f3f4f6; }
 .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
 .card-actions select { padding: 4px 6px; font-size: 13px; }
 .empty { color: #9ca3af; text-align: center; padding: 12px; font-size: 14px; }
+
+.undo-redo { display: flex; gap: 6px; }
+.undo-redo button:disabled { opacity: 0.4; cursor: default; }
+button.secondary { background: #fff; color: #374151; border-color: #d1d5db; }
