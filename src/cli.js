@@ -1,3 +1,4 @@
+/**CLI FUNCIONALITY DOESN'T USE **/
 #!/usr/bin/env node
 import { pathToFileURL } from "node:url";
 import { loadStore, saveStore } from "./storage.js";
