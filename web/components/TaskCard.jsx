@@ -1,5 +1,5 @@
 import { isOverdue } from "../../src/tasks.js";
-import { STATUSES } from "../../src/store.js";
+import StatusSelect from "./StatusSelect.jsx";
 
 export default function TaskCard({ task, onMove, onRemove }) {
   const overdue = isOverdue(task);
@@ -13,13 +13,7 @@ export default function TaskCard({ task, onMove, onRemove }) {
         </div>
       )}
       <div className="card-actions">
-        <select value={task.status} onChange={(e) => onMove(task.id, e.target.value)} aria-label="Status">
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
+        <StatusSelect value={task.status} onChange={(status) => onMove(task.id, status)} />
         <button className="link" onClick={() => onRemove(task.id)} aria-label={`Delete ${task.title}`}>
           Delete
         </button>
