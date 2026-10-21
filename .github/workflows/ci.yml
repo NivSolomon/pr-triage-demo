@@ -16,22 +16,36 @@ permissions:
 
 jobs:
   test:
-    name: Test and build
+    name: Test and build (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # Lowest and highest versions allowed by "engines" in package.json.
+        node: ["20.19", 22]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node }}
           cache: npm
 
       # Reproducible install from package-lock.json (fails if it is out of sync).
       - run: npm ci
 
-      - name: Unit tests
-        run: npm test
+      - name: Unit tests with coverage
+        shell: bash # enables pipefail, so a failing test still fails the step
+        run: npm run test:coverage | tee coverage.txt
+
+      - name: Coverage summary
+        if: matrix.node == 22
+        run: |
+          echo '### Coverage (Node 22)' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          sed -n '/start of coverage report/,/end of coverage report/p' coverage.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Build the web app
         run: npm run build
