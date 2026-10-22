@@ -1,7 +1,12 @@
-# Demo guide
+# Demo guide (optional signal suite)
 
-This repo is a **fixture**: a tiny library plus 8 open pull requests that each trigger a different
-signal in the PR Triage Agent. The code is irrelevant; the PRs are the point.
+The **live** demo for the PR Triage Agent is documented in [`README.md`](README.md)
+(the task-board feature PRs currently open on GitHub).
+
+This file is the original **signal suite**: eight older branches, one per triage
+rule, with nothing overlapping. They still exist locally. They are not the
+open PRs the agent is looking at unless you push them and run
+`scripts/open-prs.mjs`.
 
 ## The pull requests
 
