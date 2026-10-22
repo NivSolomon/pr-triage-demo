@@ -6,12 +6,14 @@ export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [due, setDue] = useState(task.due ? task.due.slice(0, 10) : "");
+  const [tags, setTags] = useState((task.tags ?? []).join(", "));
   const [error, setError] = useState("");
   const overdue = isOverdue(task);
 
   function startEdit() {
     setTitle(task.title);
     setDue(task.due ? task.due.slice(0, 10) : "");
+    setTags((task.tags ?? []).join(", "));
     setError("");
     setEditing(true);
   }
@@ -19,7 +21,7 @@ export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
   function save(e) {
     e.preventDefault();
     try {
-      onUpdate(task.id, { title, due: due ? new Date(due).toISOString() : null });
+      onUpdate(task.id, { title, due: due ? new Date(due).toISOString() : null, tags });
       setEditing(false);
     } catch (err) {
       setError(err.message);
@@ -32,6 +34,7 @@ export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
         <form className="edit-form" onSubmit={save}>
           <input value={title} onChange={(e) => setTitle(e.target.value)} aria-label="Edit title" autoFocus />
           <input type="date" value={due} onChange={(e) => setDue(e.target.value)} aria-label="Edit due date" />
+          <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="tags" aria-label="Edit tags" />
           {error && <p className="error">{error}</p>}
           <div className="card-actions">
             <button type="submit">Save</button>
@@ -51,6 +54,15 @@ export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
         <div className="card-due">
           {overdue ? "Overdue: " : "Due "}
           {task.due.slice(0, 10)}
+        </div>
+      )}
+      {(task.tags ?? []).length > 0 && (
+        <div className="card-tags">
+          {task.tags.map((tag) => (
+            <span key={tag} className="tag">
+              #{tag}
+            </span>
+          ))}
         </div>
       )}
       <div className="card-actions">

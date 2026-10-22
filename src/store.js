@@ -1,4 +1,5 @@
 import { createTask } from "./tasks.js";
+import { normalizeTags } from "./tags.js";
 
 export const STATUSES = ["backlog", "in-progress", "done"];
 
@@ -9,8 +10,8 @@ export class TaskStore {
     this.nextId = tasks.reduce((max, t) => Math.max(max, t.id), 0) + 1;
   }
 
-  add({ title, due = null, status }) {
-    const task = createTask({ id: this.nextId, title, due, status });
+  add({ title, due = null, status, tags = [] }) {
+    const task = { ...createTask({ id: this.nextId, title, due, status }), tags: normalizeTags(tags) };
     if (!STATUSES.includes(task.status)) throw new Error(`unknown status: ${task.status}`);
     this.nextId += 1;
     this.tasks.push(task);
@@ -30,6 +31,7 @@ export class TaskStore {
       task.title = changes.title.trim();
     }
     if (changes.due !== undefined) task.due = changes.due;
+    if (changes.tags !== undefined) task.tags = normalizeTags(changes.tags);
     if (changes.status !== undefined) this.move(id, changes.status);
     return task;
   }
