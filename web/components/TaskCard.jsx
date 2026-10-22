@@ -53,6 +53,7 @@ export default function TaskCard({ task, onMove, onUpdate, onRemove }) {
           {task.due.slice(0, 10)}
         </div>
       )}
+      {task.repeat && task.repeat !== "none" && <div className="card-repeat">Repeats {task.repeat}</div>}
       <div className="card-actions">
         <select value={task.status} onChange={(e) => onMove(task.id, e.target.value)} aria-label="Status">
           {STATUSES.map((s) => (

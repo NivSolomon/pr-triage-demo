@@ -1,4 +1,5 @@
 import { createTask } from "./tasks.js";
+import { REPEATS, spawnNext } from "./recurrence.js";
 
 export const STATUSES = ["backlog", "in-progress", "done"];
 
@@ -9,9 +10,11 @@ export class TaskStore {
     this.nextId = tasks.reduce((max, t) => Math.max(max, t.id), 0) + 1;
   }
 
-  add({ title, due = null, status }) {
-    const task = createTask({ id: this.nextId, title, due, status });
+  add({ title, due = null, status, repeat = "none" }) {
+    const task = { ...createTask({ id: this.nextId, title, due, status }), repeat };
     if (!STATUSES.includes(task.status)) throw new Error(`unknown status: ${task.status}`);
+    if (!REPEATS.includes(repeat)) throw new Error(`unknown repeat: ${repeat}`);
+    if (repeat !== "none" && !due) throw new Error("recurring tasks need a due date");
     this.nextId += 1;
     this.tasks.push(task);
     return task;
@@ -37,7 +40,13 @@ export class TaskStore {
   move(id, status) {
     if (!STATUSES.includes(status)) throw new Error(`unknown status: ${status}`);
     const task = this.get(id);
+    const completing = status === "done" && task.status !== "done";
     task.status = status;
+    // Completing a recurring task schedules its next occurrence.
+    if (completing) {
+      const next = spawnNext(task);
+      if (next) this.add(next);
+    }
     return task;
   }
 

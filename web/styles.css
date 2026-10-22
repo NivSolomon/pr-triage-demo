@@ -43,3 +43,5 @@ button.secondary:hover { background: #f3f4f6; }
 .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
 .card-actions select { padding: 4px 6px; font-size: 13px; }
 .empty { color: #9ca3af; text-align: center; padding: 12px; font-size: 14px; }
+
+.card-repeat { font-size: 12px; color: #7c3aed; margin-top: 4px; }
