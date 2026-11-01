@@ -4,7 +4,7 @@ import { useTaskStore } from "./useTaskStore.js";
 import TaskForm from "./components/TaskForm.jsx";
 import StatsBar from "./components/StatsBar.jsx";
 import Column from "./components/Column.jsx";
-import ThemeToggle from "./components/Themetoggle.jsx";
+import ThemeToggle from "./components/ThemeToggle.jsx";
 import { useTheme } from "./theme.js";
 
 export default function App() {

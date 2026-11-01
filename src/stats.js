@@ -1,4 +1,4 @@
-import { isOverdue } from "./tasks.js";
+import { listOverdue } from "./tasks.js";
 import { STATUSES } from "./store.js";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -11,7 +11,7 @@ export function summarize(tasks, now = new Date()) {
   return {
     total: tasks.length,
     byStatus,
-    overdue: tasks.filter((t) => isOverdue(t, now)).length,
+    overdue: listOverdue(tasks, now).length,
     completionRate: tasks.length === 0 ? 0 : byStatus.done / tasks.length,
   };
 }
