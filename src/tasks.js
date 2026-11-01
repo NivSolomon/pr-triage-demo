@@ -15,3 +15,8 @@ export function isOverdue(task, now = new Date()) {
 export function listByStatus(tasks, status) {
   return tasks.filter((t) => t.status === status);
 }
+
+/** Open tasks whose due date is already in the past. */
+export function listOverdue(tasks, now = new Date()) {
+  return tasks.filter((t) => isOverdue(t, now));
+}
